@@ -7,7 +7,7 @@ gem 'rails', '3.2.3'
 
 gem 'sqlite3'
 
-gem 'nice', :path => '~/Desktop/Nizza/nice'
+gem 'nice', :path => '../../'
 
 # eyes - friendly
 gem "twitter-bootstrap-rails"
