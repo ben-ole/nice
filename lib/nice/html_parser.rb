@@ -1,16 +1,17 @@
 require 'nokogiri'
-require 'open-uri'
 require 'yaml'
 
 module Nice
   class HtmlParser
   
-    def self.remove_elements_of_state(state, htmlStr)
-      doc = Nokogiri::HTML(htmlStr)
-      doc.css("[data-state='#{state}']").each do |node|
-        node.remove
+    def self.remove_elements_not_of_state(state, doc)
+
+      doc.css("[data-state]").each do |node|
+        if node.attribute('data-state').value != state then
+          node.remove
+        end
       end
-      doc.content
+      doc.to_html
     end
 
   	def run url

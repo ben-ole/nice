@@ -1,3 +1,6 @@
+require 'nokogiri'
+require 'nice/logic'
+
 module Nice
   class Middleware
     
@@ -23,20 +26,44 @@ module Nice
     end
   
     def call(env)
-      @status, @headers, @response = @app.call(env)
+      @doc = nil
+      status, @headers, @body = @app.call(env)
       
-      if @headers["Content-Type"].include? "text/html"
-        [@status, @headers, self]  
+      if html?
+        [status, @headers, self]
       else
-        [@status, @headers, @response]
+        [status, @headers, @body]
       end
+    end
+    
+    def each(&block)
+      if html?
+        block.call("<!-- Nice State Engine, awesome! -->\n")
+        block.call( Nice::Logic.run( nil, doc ) )
+      else
+        block.call(@body)
+      end
+    end
+    
+    # Helper
+    private 
+    
+    def html?
+      @headers["Content-Type"] && @headers["Content-Type"].include?("text/html")
+    end
+    
+    def doc
+      @doc ||= Nokogiri::HTML(body_to_string)
     end
   
-    def each(&block)
-      if @headers["Content-Type"].include? "text/html"
-        block.call("<!-- Nice State Engine, awesome! -->\n")
-        NiceStateEngine::HtmlParser.remove_elements_of_state( "one", @response.each(&block) )
-      end
+    def body_to_string
+      s = ""
+      @body.each { |x| s << x }
+      s
     end
+    
+    def update_content_length
+      @headers['Content-Length'] = Rack::Utils.bytesize(@body).to_s
+    end    
   end
 end
