@@ -1,0 +1,19 @@
+<% content_for :content do %>
+	<div>
+		<h1>Container 1</h1>
+		<%= yield(:container1) %>
+	</div>
+	<div>
+		<h1>Container 2</h1>
+		<%= yield(:container2) %>
+	</div>
+	<div>
+		<h1>Container 3</h1>
+		<%= yield(:container3) %>
+	</div>
+	<div>
+		<h1>Container 4</h1>
+		<%= yield(:container4) %>
+	</div>
+<% end %>
+<%= render :template => 'layouts/application' %>
