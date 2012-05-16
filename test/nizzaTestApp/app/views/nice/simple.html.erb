@@ -1,8 +1,29 @@
-<h1>A simple test with three states and some paragraphs</h1>
-<p data-state="one">1. This is a pagraph in state one!</p>
-<p data-state="two">2. This is a pagraph in state two!</p>
-<p data-state="three">3. This is a pagraph in state three!</p>
-<p data-state="one">4. This is a pagraph in state one!</p>						
-<p data-state="one">5. This is a pagraph in state one!</p>	
-<p data-state="two">6. This is a pagraph in state two!</p>
-<p data-state="three">7. This is a pagraph in state three!</p>
+<% content_for :container1 do %>
+	<div>
+		<div data-state="get_nice_simple">
+			<h2>Inside Container 1</h2>
+		</div>
+	</div>	
+	
+<% end %>
+<% content_for :container2 do %>
+	<div>
+		<div data-state="get_nice_simple">
+			<h2>Inside Container 2</h2>
+		</div>
+	</div>
+<% end %>
+<% content_for :container3 do %>
+	<div>
+		<div data-state="get_nice_simple">
+			<h2>Inside Container 3</h2>
+		</div>
+	</div>
+<% end %>
+<% content_for :container4 do %>
+	<div>
+		<div data-state="get_nice_simple">
+			<h2>Inside Container 4</h2>
+		</div>	
+	</div>
+<% end %>

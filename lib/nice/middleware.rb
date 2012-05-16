@@ -27,9 +27,20 @@ module Nice
   
     def call(env)
       @doc = nil
+      @referer = nil
+
       status, @headers, @body = @app.call(env)
       
-      if html?
+      if html? || js?
+      	 @referer = env["HTTP_REFERER"]
+      	 @method = env["REQUEST_METHOD"]
+      	 @path = env["PATH_INFO"]
+
+      	 # in case 2+3 the response will be plain javascript
+      	 if @referer
+      	 	@headers = {"Content-Type" => "text/javascript"}
+      	 end
+
         [status, @headers, self]
       else
         [status, @headers, @body]
@@ -37,9 +48,9 @@ module Nice
     end
     
     def each(&block)
-      if html?
-        block.call("<!-- Nice State Engine, awesome! -->\n")
-        block.call( Nice::Logic.run( nil, doc ) )
+      if html? || js?
+        block.call("<!-- previous state: #{@referer} -->\n")
+        block.call( Nice::Logic.run( @method, @path, @referer, doc ) )
       else
         block.call(@body)
       end
@@ -52,6 +63,10 @@ module Nice
       @headers["Content-Type"] && @headers["Content-Type"].include?("text/html")
     end
     
+    def js?
+      @headers["Content-Type"] && @headers["Content-Type"].include?("text/javascript")
+    end
+
     def doc
       @doc ||= Nokogiri::HTML(body_to_string)
     end

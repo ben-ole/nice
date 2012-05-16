@@ -1,2 +1,18 @@
-<h1>Nice#many</h1>
-<p>Find me in app/views/nice/many.html.erb</p>
+<% content_for :container1 do %>
+
+	<div>
+		<div data-state="get_nice_many">
+			<h2>Inside Container 1</h2>
+			
+			<%= link_to 'go simple','simple', :remote => true %>
+		</div>
+	</div>
+	
+<% end %>
+<% content_for :container2 do %>
+	<div>
+		<div data-state="get_nice_many">
+			<h2>Inside Container 2</h2>
+		</div>
+	</div>
+<% end %>
