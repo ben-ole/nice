@@ -22,16 +22,21 @@ module Nice
 
   		# get reference nodes in DOM tree for current nodes and generate js insert statements
   		stack = curr_state_nodes.map do |curr_node|
+
   			ref_node_name = "[data-state-uid=\'#{curr_node['data-state']}_ref\']"  			
   			ref_node = doc.css(ref_node_name)
 
   			ref_node_method = ref_node != nil ? ref_node.attribute('data-state-insert-method').value : "insert"
 
+
   			if ref_node_method == "insert"
-  				"$(\"#{ref_node_name}\").insert(\"#{curr_node.to_html}\");"		
+  				js_text = "$(\"#{ref_node_name}\").insert(\'#{curr_node}\');"		
   			else
-  				"$(\"#{ref_node_name}\").append(\"#{curr_node.to_html}\");"
+  				js_text = "$(\"#{ref_node_name}\").append(\'#{curr_node}\');"
   			end
+
+  			# remove unuseful chars which will break the js parser
+  			js_text = js_text.gsub(/(\r\n|\n|\r|\t)/,'')
   		end
 
   		stack
