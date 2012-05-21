@@ -1,18 +1,8 @@
 <% content_for :container1 do %>
-
-	<div>
-		<div data-state="get_nice_many">
-			<h2>Inside Container 1</h2>
-			
-			<%= link_to 'go simple','simple', :remote => true %>
-		</div>
-	</div>
+	<h2>Many Inside Container 1</h2>
 	
+	<%= link_to 'go simple','simple', :remote => true %>
 <% end %>
 <% content_for :container2 do %>
-	<div>
-		<div data-state="get_nice_many">
-			<h2>Inside Container 2</h2>
-		</div>
-	</div>
+	<h2>Many Inside Container 2</h2>	
 <% end %>

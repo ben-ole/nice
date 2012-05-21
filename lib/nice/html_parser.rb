@@ -23,11 +23,10 @@ module Nice
   		# get reference nodes in DOM tree for current nodes and generate js insert statements
   		stack = curr_state_nodes.map do |curr_node|
 
-  			ref_node_name = "[data-state-uid=\'#{curr_node['data-state']}_ref\']"  			
+  			ref_node_name = "[data-state-uid~=\'#{curr_node['data-state']}_ref\']"  			
   			ref_node = doc.css(ref_node_name)
 
   			ref_node_method = ref_node != nil ? ref_node.attribute('data-state-insert-method').value : "insert"
-
 
   			if ref_node_method == "insert"
   				js_text = "$(\"#{ref_node_name}\").insert(\'#{curr_node}\');"		
@@ -44,20 +43,29 @@ module Nice
 
   	# generates nodes for all "data-state" elements
   	def self.annotate_referencing_nodes doc
-  		# get all nodes 
-  		curr_state_nodes = doc.css("[data-state]")
 
-  		# get reference nodes in DOM tree for current nodes and generate js insert statements
-
-  		# Array??????? => multiple state nodes could be referenced by the same node
-  		curr_state_nodes.each do |curr_node|
-  			if curr_node.previous_element then
-  				curr_node.previous_element['data-state-uid'] = self.ref_node_uid(curr_node['data-state'])
-  				curr_node.previous_element['data-state-insert-method'] = "insert"
+  		doc.css("[data-state]").each do |curr_node|
+  			
+  			if curr_node.previous_element && !curr_node.previous_element.has_attribute?("data-state") then
+  				node = curr_node.previous_element
+  				method = "insert"
   			else
-  				curr_node.parent['data-state-uid'] = self.ref_node_uid(curr_node['data-state'])  
-  				curr_node.parent['data-state-insert-method'] = "append"				
+  				node = curr_node.parent
+  				method = "append"
   			end
+  			
+  			p "node: #{node != nil}"
+  			p "node method: #{method}"
+
+  			continue if node == nil
+
+  			a = node.has_attribute?('data-state-uid') ? [node.attribute('data-state-uid').value] : []
+			a += [self.ref_node_uid(curr_node['data-state'])]
+			node['data-state-uid'] = a.join(" ")
+
+			m = node.has_attribute?('data-state-insert-method') ? [node.attribute('data-state-insert-method').value] : []
+			m += ["insert"]
+			node['data-state-insert-method'] = m.join(" ")
   		end
 
   		doc
