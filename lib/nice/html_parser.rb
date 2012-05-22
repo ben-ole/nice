@@ -53,8 +53,13 @@ module Nice
   	# This method supports referencing by more than one state bounded node
   	def self.annotate_referencing_nodes doc
 
-  		doc.css("[data-state]").each_with_index do |curr_node,idx|
+  		per_state_counter = {}
+  		doc.css("[data-state]").each do |curr_node|
   			
+  			# increase counter per state
+  			per_state_counter[curr_node.attribute("data-state").value] ||= 0
+  			idx = per_state_counter[curr_node.attribute("data-state").value] += 1
+
   			# try using preceding element if one exists otherwise use parent.
   			# the referencing node must not be an state bound element otherwise
   			# we can not be sure the element is always present.

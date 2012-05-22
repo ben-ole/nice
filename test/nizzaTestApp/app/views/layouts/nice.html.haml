@@ -8,9 +8,10 @@
       = yield(:container1)
     .hello
       %p ein bisschen witz
-    %div{"data-state" => "get_nice_simple"}
-      %h1 Test 2
+    - 3.times do
+      %div{"data-state" => "get_nice_simple"}
+        %h1 Test 2
     %h1 Simple and Many with different content
     = yield(:container2)
-    
+
 = render :template => 'layouts/application'
