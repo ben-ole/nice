@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'yaml'
+require 'nice/js/dom_manipulation'
 
 module Nice
   class HtmlParser
@@ -23,15 +24,15 @@ module Nice
   		# get reference nodes in DOM tree for current nodes and generate js insert statements
   		stack = curr_state_nodes.map do |curr_node|
 
-  			ref_node_name = "[data-state-uid~=\'#{curr_node['data-state']}_ref\']"  			
+  			ref_node_name = "[data-state-uid~=\'#{self.ref_node_uid(curr_node['data-state'])}\']"  			
   			ref_node = doc.css(ref_node_name)
 
   			ref_node_method = ref_node != nil ? ref_node.attribute('data-state-insert-method').value : "insert"
 
   			if ref_node_method == "insert"
-  				js_text = "$(\"#{ref_node_name}\").insert(\'#{curr_node}\');"		
+  				js_text = Nice::Js::DomManipulation.generate_js_insert_after curr_node, ref_node_name
   			else
-  				js_text = "$(\"#{ref_node_name}\").append(\'#{curr_node}\');"
+  				js_text = Nice::Js::DomManipulation.generate_js_insert_inside curr_node, ref_node_name
   			end
 
   			# remove unuseful chars which will break the js parser
@@ -41,24 +42,45 @@ module Nice
   		stack
   	end
 
-  	# generates nodes for all "data-state" elements
+  	# generates referencing data attributes in all preceiding or parent nodes of 
+  	# state bound elements which are used later to insert elements correctly
+  	# This method supports referencing by more than one state bounded node
   	def self.annotate_referencing_nodes doc
 
   		doc.css("[data-state]").each do |curr_node|
   			
-  			if curr_node.previous_element && !curr_node.previous_element.has_attribute?("data-state") then
+  			# try using preceding element if one exists otherwise use parent.
+  			# the referencing node must not be an state bound element otherwise
+  			# we can not be sure the element is always present.
+  			prev_node = curr_node.previous_element
+
+  			while prev_node && prev_node.has_attribute?("data-state")
+  			 	prev_node = prev_node.previous_element
+  			end 
+
+  			if prev_node && !prev_node.has_attribute?("data-state")
   				node = curr_node.previous_element
-  				method = "insert"
+  				method = "insert"	
   			else
-  				node = curr_node.parent
-  				method = "append"
+  				par_node = curr_node.parent
+  				
+  				while par_node && par_node.has_attribute?("data-state")
+  			 		par_node = par_node.parent
+  				end 
+
+  				if par_node && !par_node.has_attribute?("data-state")
+  					node = curr_node.parent
+  					method = "append"
+  				else
+  					raise "No reference could be created for node #{curr_node}. Make sure this node \
+  					is preceeded or sourrounded at least by one non state bound element."
+  				end
+  				
   			end
-  			
-  			p "node: #{node != nil}"
-  			p "node method: #{method}"
 
   			continue if node == nil
 
+  			# add reference to the found element
   			a = node.has_attribute?('data-state-uid') ? [node.attribute('data-state-uid').value] : []
 			a += [self.ref_node_uid(curr_node['data-state'])]
 			node['data-state-uid'] = a.join(" ")
@@ -76,25 +98,6 @@ module Nice
 	
   	def self.ref_node_uid (node_uid)
   		"#{node_uid}_ref"
-  	end
-
-  	#generates js code to insert 'new_node' after 'reference_node'
-  	#TODO: this is js library dependent and should be interfaced	
-  	def self.generate_js_insert_after new_node, reference_node_ref
-  		return "$(\"[data-uid='#{reference_node_ref}']\").insert(\"#{new_node.to_html}\");"
-  	end
-
-  	#generates js code to insert 'new_node' inside 'reference_node'
-  	#TODO: this is js library dependent and should be interfaced	
-  	def self.generate_js_insert_inside new_node, reference_node_ref
-  		return "$(\"[data-uid='#{reference_node_ref}']\").append(\"#{new_node.to_html}\");"
-  	end
-	
-  	#generates js code to remove element
-  	#TODO: this is js library dependent and should be interfaced
-  	def self.generate_js_remove node_ref
-  		return "$([data-uid='#{node_ref}']).remove();"
-  		#maybe detache instead of remove?
   	end
 	
   end

@@ -16,3 +16,8 @@ body{
 	 background-color: #222;
 	 color: #EEE;
 }
+
+#meat{
+	width: 960px;
+	margin: auto;
+}

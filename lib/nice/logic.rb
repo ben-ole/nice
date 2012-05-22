@@ -1,4 +1,5 @@
 require 'nice/html_parser'
+require 'nice/js/dom_manipulation'
 require 'uri'
 
 module Nice
@@ -42,7 +43,7 @@ module Nice
 
       	# case 2
       	else   
-      		js_stack = ["$(\"[data-state]\").remove();"]
+      		js_stack = [ Nice::Js::DomManipulation.generate_js_remove() ]
       		js_stack += Nice::HtmlParser.add_elements_of_current_state(cleaned_doc,current_state)		
       		
 

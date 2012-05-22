@@ -8,8 +8,10 @@
 </head>
 <body>
 
-This is the application container
-<%= content_for?(:content) ? yield(:content) : yield %>
+<div id="meat">
+	This is the application container
+	<%= content_for?(:content) ? yield(:content) : yield %>
+</div>
 
 </body>
 </html>
