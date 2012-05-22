@@ -22,12 +22,18 @@ module Nice
   		curr_state_nodes = doc.css("[data-state='#{curr_state}']")
 
   		# get reference nodes in DOM tree for current nodes and generate js insert statements
-  		stack = curr_state_nodes.map do |curr_node|
-
-  			ref_node_name = "[data-state-uid~=\'#{self.ref_node_uid(curr_node['data-state'])}\']"  			
+  		stack = curr_state_nodes.reverse.map do |curr_node|
+  			ref_id = self.ref_node_uid curr_node['data-state']
+  			ref_node_name = "[data-state-uid~=\'#{ref_id}\']"  			
   			ref_node = doc.css(ref_node_name)
 
-  			ref_node_method = ref_node != nil ? ref_node.attribute('data-state-insert-method').value : "insert"
+  			continue if ref_node == nil
+  			
+  			#get index
+  			idx = ref_node.attribute("data-state-uid").value.split(" ").find_index(ref_id)
+
+  			ref_node_method = ref_node.attribute('data-state-insert-method').value.split(" ")[idx]
+  			p "ref_node_method: #{ref_node_method}"
 
   			if ref_node_method == "insert"
   				js_text = Nice::Js::DomManipulation.generate_js_insert_after curr_node, ref_node_name
@@ -86,7 +92,7 @@ module Nice
 			node['data-state-uid'] = a.join(" ")
 
 			m = node.has_attribute?('data-state-insert-method') ? [node.attribute('data-state-insert-method').value] : []
-			m += ["insert"]
+			m += [method]
 			node['data-state-insert-method'] = m.join(" ")
   		end
 

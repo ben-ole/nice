@@ -12,6 +12,7 @@ gem 'nice', :path => '../../'
 # eyes - friendly
 #gem "twitter-bootstrap-rails", :git => "git://github.com/elchbenny/twitter-bootstrap-rails.git", :branch => "static"
 
+gem 'haml-rails'
 
 #gem "therubyracer", :platform => :ruby
 # Gems used only for assets and not required
