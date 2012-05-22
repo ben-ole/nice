@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Benjamin Mueller"]
   s.email       = ["elchbenny@googlemail.com"]
   s.homepage    = ""
-  s.summary     = "Nice / Nizza is posh little town in south France."
+  s.summary     = "Nice / Nizza is a posh little town in south France."
   s.description = "Seriously, it's a nice little state engine for JS/HTML5 on Rails"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
