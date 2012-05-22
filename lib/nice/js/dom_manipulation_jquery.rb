@@ -9,8 +9,8 @@ module Nice
 		  		return "$(\"#{reference_node_ref}\").prepend(\'#{new_node}\');"
 		  	end
 			
-		  	def generate_js_remove
-		  		return "$(\"[data-state]\").remove();"
+		  	def generate_js_remove curr_state
+		  		return "$(\"not([data-state~=\'#{curr_state}\']\").remove();"
 		  		#maybe detache instead of remove?
 		  	end
 		end	

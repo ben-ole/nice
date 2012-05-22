@@ -9,7 +9,7 @@
     .hello
       %p ein bisschen witz
     - 3.times do
-      %div{"data-state" => "get_nice_simple get_nice_many"}
+      %div{"data-state" => "get_nice_simple get_nice_many", "data-state-update" => :yes}
         %h1 Test 2
     %h1 Simple and Many with different content
     = yield(:container2)

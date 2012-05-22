@@ -42,7 +42,7 @@ module Nice
   			end
 
   			# remove unuseful chars which will break the js parser
-  			js_text = js_text.gsub(/(\r\n|\n|\r|\t)/,'')
+  			js_text = js_text.gsub(/(\r\n|\n|\r|\t|\s\s)/,'')
   		end
 
   		stack

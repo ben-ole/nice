@@ -12,8 +12,8 @@ module Nice
 				return self.target.generate_js_insert_inside new_node, reference_node_ref
 			end
 
-			def self.generate_js_remove
-				return self.target.generate_js_remove
+			def self.generate_js_remove curr_state
+				return self.target.generate_js_remove curr_state
 			end
 	 
 			protected

@@ -15,7 +15,7 @@ module Nice
 					    xmlHttp.send( null );
 					    
 					    eval(xmlHttp.responseText);
-					});"
+					});".gsub(/(\r\n|\n|\r|\t|\s\s)/,'')
 			end
 		end
 	end
