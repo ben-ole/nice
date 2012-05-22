@@ -33,7 +33,6 @@ module Nice
   			idx = ref_node.attribute("data-state-uid").value.split(" ").find_index(ref_id)
 
   			ref_node_method = ref_node.attribute('data-state-insert-method').value.split(" ")[idx]
-  			p "ref_node_method: #{ref_node_method}"
 
   			if ref_node_method == "insert"
   				js_text = Nice::Js::DomManipulation.generate_js_insert_after curr_node, ref_node_name
@@ -70,7 +69,7 @@ module Nice
   			end 
 
   			if prev_node && !prev_node.has_attribute?("data-state")
-  				node = curr_node.previous_element
+  				node = prev_node
   				method = "insert"	
   			else
   				par_node = curr_node.parent
