@@ -22,8 +22,8 @@ module Nice
   		curr_state_nodes = doc.css("[data-state='#{curr_state}']")
 
   		# get reference nodes in DOM tree for current nodes and generate js insert statements
-  		stack = curr_state_nodes.reverse.map do |curr_node|
-  			ref_id = self.ref_node_uid curr_node['data-state']
+  		stack = curr_state_nodes.reverse.each_with_index.map do |curr_node,index|
+  			ref_id = self.ref_node_uid(curr_node['data-state'],curr_state_nodes.count - index)
   			ref_node_name = "[data-state-uid~=\'#{ref_id}\']"  			
   			ref_node = doc.css(ref_node_name)
 
@@ -53,7 +53,7 @@ module Nice
   	# This method supports referencing by more than one state bounded node
   	def self.annotate_referencing_nodes doc
 
-  		doc.css("[data-state]").each do |curr_node|
+  		doc.css("[data-state]").each_with_index do |curr_node,idx|
   			
   			# try using preceding element if one exists otherwise use parent.
   			# the referencing node must not be an state bound element otherwise
@@ -88,7 +88,7 @@ module Nice
 
   			# add reference to the found element
   			a = node.has_attribute?('data-state-uid') ? [node.attribute('data-state-uid').value] : []
-			a += [self.ref_node_uid(curr_node['data-state'])]
+			a += [self.ref_node_uid(curr_node['data-state'],idx)]
 			node['data-state-uid'] = a.join(" ")
 
 			m = node.has_attribute?('data-state-insert-method') ? [node.attribute('data-state-insert-method').value] : []
@@ -102,8 +102,8 @@ module Nice
 	
   	private
 	
-  	def self.ref_node_uid (node_uid)
-  		"#{node_uid}_ref"
+  	def self.ref_node_uid node_uid, num
+  		"#{node_uid}_ref_#{num}"
   	end
 	
   end
