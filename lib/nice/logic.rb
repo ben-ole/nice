@@ -47,7 +47,7 @@ module Nice
       		js_stack << Nice::Js::Caller.generate_js_remove(current_state)
 
       		js_stack << "// add new elements"
-      		js_stack += Nice::HtmlParser.add_elements_of_current_state(cleaned_doc,current_state)
+      		js_stack += Nice::HtmlParser.add_elements_of_current_state(cleaned_doc,current_state).compact
 
       		js_stack << "// add browser history scripts"		
       		js_stack << Nice::Js::Caller.move_to_url(current_path,"title")
