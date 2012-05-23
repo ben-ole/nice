@@ -24,11 +24,16 @@ module Nice
   		# get reference nodes in DOM tree for current nodes and generate js insert statements
   		stack = curr_state_nodes.reverse.each_with_index.map do |curr_node,index|
 
+        if curr_node.has_attribute?("data-state-update") && 
+          curr_node.attribute("data-state-update").value == "no" then
+          next
+        end
+
   			ref_id = self.ref_node_uid(curr_state,curr_state_nodes.count - index)
   			ref_node_name = "[data-state-uid~=\'#{ref_id}\']"  			
   			ref_node = doc.css(ref_node_name)
 
-  			continue if ref_node == nil
+  			next if ref_node == nil
   			
   			#get index
   			idx = ref_node.attribute("data-state-uid").value.split(" ").find_index(ref_id)
@@ -94,7 +99,7 @@ module Nice
 	  				
 	  			end
 
-	  			continue if node == nil
+	  			next if node == nil
 
 	  			# add reference to the found element
 	  			a = node.has_attribute?('data-state-uid') ? [node.attribute('data-state-uid').value] : []

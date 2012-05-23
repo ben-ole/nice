@@ -10,7 +10,8 @@ module Nice
 		  	end
 			
 		  	def generate_js_remove curr_state
-		  		return "$(\"not([data-state~=\'#{curr_state}\']\").remove();"
+		  		return "$(\"[data-state]\").not(\"[data-state~=\'#{curr_state}\']\").remove();" +
+		  		       "$(\"[data-state~=\'#{curr_state}\'][data-state-update!=\'no\']\").remove();"
 		  		#maybe detache instead of remove?
 		  	end
 		end	

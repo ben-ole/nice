@@ -1,17 +1,15 @@
 - content_for :content do
   %div
-    %div{"data-state" => "get_nice_many"}
+    .two{"data-state" => "get_nice_many"}
       %h1 Only Many
       = yield(:container1)
-    %div{"data-state" => "get_nice_simple"}
+    .one{"data-state" => "get_nice_simple"}
       %h1 Only Simple
       = yield(:container1)
     .hello
       %p ein bisschen witz
     - 3.times do
       %div{"data-state" => "get_nice_simple get_nice_many", "data-state-update" => :yes}
-        %h1 Test 2
-    %h1 Simple and Many with different content
-    = yield(:container2)
+        = yield(:container2)
 
 = render :template => 'layouts/application'

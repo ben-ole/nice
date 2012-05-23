@@ -2,11 +2,33 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$container-color: rgba(255,0,100,0.4);
+$color-one: rgba(255,0,100,0.4);
+$color-two: rgba(255,255,00,0.4);
+$color-three: rgba(0,200,120,0.4);
 
 div{
 	padding: 5px;
 	margin: 5px;
-	background-color: $container-color;
 	border: dashed 1px #222;
+	background-color: $color-one;
+	
+	.one{
+		background-color: $color-two;
+	}
+	
+	.two{
+		background-color: $color-three;
+	}
+}
+
+a{
+	color: blue;
+}
+
+// transitions 
+.one .two{
+	transition: width 2s;
+	-moz-transition: width 2s; /* Firefox 4 */
+	-webkit-transition: width 2s; /* Safari and Chrome */
+	-o-transition: width 2s; /* Opera */
 }
