@@ -1,6 +1,6 @@
 require 'nokogiri'
 require 'yaml'
-require 'nice/js/dom_manipulation'
+require 'nice/js/caller'
 
 module Nice
   class HtmlParser
@@ -41,9 +41,9 @@ module Nice
   			ref_node_method = ref_node.attribute('data-state-insert-method').value.split(" ")[idx]
 
   			if ref_node_method == "insert"
-  				js_text = Nice::Js::DomManipulation.generate_js_insert_after curr_node, ref_node_name
+  				js_text = Nice::Js::Caller.generate_js_insert_after curr_node, ref_node_name
   			else
-  				js_text = Nice::Js::DomManipulation.generate_js_insert_inside curr_node, ref_node_name
+  				js_text = Nice::Js::Caller.generate_js_insert_inside curr_node, ref_node_name
   			end
 
   			# remove unuseful chars which will break the js parser

@@ -1,6 +1,5 @@
 require 'nice/html_parser'
-require 'nice/js/dom_manipulation'
-require 'nice/js/history'
+require 'nice/js/caller'
 require 'uri'
 
 module Nice
@@ -45,14 +44,14 @@ module Nice
       	# case 2
       	else   
       		js_stack = ["// remove elements not present in the following state"]
-      		js_stack << Nice::Js::DomManipulation.generate_js_remove(current_state)
+      		js_stack << Nice::Js::Caller.generate_js_remove(current_state)
 
       		js_stack << "// add new elements"
       		js_stack += Nice::HtmlParser.add_elements_of_current_state(cleaned_doc,current_state)
 
       		js_stack << "// add browser history scripts"		
-      		js_stack << Nice::Js::History.move_to_url(current_path,"title")
-      		js_stack << Nice::Js::History.insert_or_update_back_listener(referer)
+      		js_stack << Nice::Js::Caller.move_to_url(current_path,"title")
+      		js_stack << Nice::Js::Caller.insert_or_update_back_listener(referer)
 
       		js_stack.join("\n")
       	end
