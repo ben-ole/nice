@@ -108,7 +108,6 @@ Nice is a middleware which processes all HTML and JS requests by either removing
 -  test cases
 -  customization of state names
 -  customization of HTML5 attribute names
--  make js calls event driven for easier customization
 -  add more js events which can be catched by application
 -  preloading of states (for elements which do not require updated backend data)
 
