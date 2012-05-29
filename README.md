@@ -43,7 +43,7 @@ Furthermore, the current version uses **JQuery** to manipulate the DOM tree, so 
 4. Require Gem javascript in your applicaton.js manifest
 
 	```js
-	#app/assets/javascripts/application.js
+	//app/assets/javascripts/application.js
 
 	//= require nice_jquery
 	```
@@ -51,7 +51,7 @@ Furthermore, the current version uses **JQuery** to manipulate the DOM tree, so 
 ### Basic Usage
 
 The idea is to combine all views of one controller into one layout file exactly as it was already possible with rails and make heavy use of **yield()** and **content_for** tags to include view specific content. 
-The convection of rails is to put a file named after your controller inside the *app/views/layouts/* folder. Such a file could look like this
+The convention of rails is to put a file named after your controller inside the *app/views/layouts/* folder. Such a file could look like this
 
 ```haml
 -# app/views/layouts/books.html.haml
@@ -85,6 +85,8 @@ There is one golden rule when programming with this state engine:
 
 This restriction is imposed by the way how the middleware calculates reference points for elements but should normally not effect your workflow - just keep it in mind.
 
+All links in your application should now use the ```:remote => :true``` attribute to ensure the requests will be sent using javascript by default.
+
 ### Features
 
 *Nice* is still in early stages and there is truly a lot to do. If you feel intrested and want to contribute, please don't hestitate to start work on one of the following features or enhance existing ones. 
@@ -98,7 +100,7 @@ This restriction is imposed by the way how the middleware calculates reference p
 
 ## Behind the scenes
 
-tbd
+Nice is a middleware which processes all HTML and JS requests by either removing non-state specific content from the rendered page or generates JS code to manipulate the DOM tree client side.
 
 ## Roadmap / Contribute
 
