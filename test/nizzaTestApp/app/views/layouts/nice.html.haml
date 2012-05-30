@@ -1,6 +1,6 @@
 - content_for :content do
   %div
-    = link_to_function "go simple cached", "var evt = document.createEvent('Event'); evt.initEvent('nice.state.CachedTransitionEvent',true,true); evt.transition_id = 'get_many_nice__get_simple_nice'; document.dispatchEvent(evt)"
+    = link_to_function "go simple cached", "NiceEventDispatcher.dispatch_event('nice.state.CachedTransitionEvent',{transition_id : 'get_many_nice__get_simple_nice'})"
     .two{"data-state" => "get_nice_many"}
       %h1 Only Many
       = yield(:container1)

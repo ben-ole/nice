@@ -27,7 +27,7 @@ class this.NiceEventDispatcher
 	@dispatch_cached_transition_events: (event) ->
 		if NiceEventDispatcher.state_cache?[event.transition_id]?
 
-			# call stored events
+			# fire stored events
 			document.dispatchEvent(evt) for evt in NiceEventDispatcher.state_cache[event.transition_id]
 			
 			# clean/reset
