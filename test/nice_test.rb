@@ -1,7 +1,12 @@
 require 'test_helper'
 
-class NiceTest < ActiveSupport::TestCase
-  test "truth" do
-    assert_kind_of Module, Nice
-  end
+class NiceTest < ActionController::IntegrationTest
+
+  	  def test_trial_account_sign_up
+	    visit home_path
+	    click_link "Sign up"
+	    fill_in "Email", :with => "good@example.com"
+	    select "Free account"
+	    click_button "Register"
+	  end
 end
