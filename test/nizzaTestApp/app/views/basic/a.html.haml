@@ -1,0 +1,7 @@
+- content_for :container1 do
+  %h2 State A
+  = link_to 'go simple', b_basic_index_path, :remote => true
+- content_for :container2 do
+  .two
+    %h2 State A
+    = Time.now    

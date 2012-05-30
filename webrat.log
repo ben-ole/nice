@@ -1,3 +1,18 @@
 # Logfile created on 2012-05-30 15:49:03 +0200 by logger.rb/25413
 REQUESTING PAGE: GET nice/many with {} and HTTP headers {}
 REQUESTING PAGE: GET /nice/many.html with {} and HTTP headers {}
+REQUESTING PAGE: GET books with {} and HTTP headers {}
+REQUESTING PAGE: GET nice/many with {} and HTTP headers {}
+REQUESTING PAGE: GET nice/many with {} and HTTP headers {}
+REQUESTING PAGE: GET /nice/simple with {} and HTTP headers {}
+REQUESTING PAGE: GET /nice/simple with {} and HTTP headers {}
+REQUESTING PAGE: GET /nice/simple with {} and HTTP headers {}
+REQUESTING PAGE: GET /nice/simple with {} and HTTP headers {}
+REQUESTING PAGE: GET /nice/simple with {} and HTTP headers {}
+REQUESTING PAGE: GET /nice/simple with {} and HTTP headers {}
+REQUESTING PAGE: GET /nice/simple with {} and HTTP headers {}
+REQUESTING PAGE: GET /nice/simple with {} and HTTP headers {}
+REQUESTING PAGE: GET /nice/simple with {} and HTTP headers {}
+REQUESTING PAGE: GET /nice/simple with {} and HTTP headers {}
+REQUESTING PAGE: GET /nice/simple with {} and HTTP headers {}
+REQUESTING PAGE: GET /basic/a with {} and HTTP headers {}

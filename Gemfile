@@ -11,6 +11,7 @@ gem "jquery-rails"
 group :development, :test do  
   gem 'webrat'
   gem 'selenium-client'  
+  gem 'haml'
 end 
 
 # Declare any dependencies that are still in development here instead of in

@@ -61,5 +61,9 @@ module NizzaTestApp
     # add new middleware
     config.middleware.use Nice::Middleware
     
+    # use haml
+    config.generators do |g|
+  		g.template_engine :haml
+	end
   end
 end

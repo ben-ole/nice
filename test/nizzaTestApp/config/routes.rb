@@ -1,7 +1,11 @@
 NizzaTestApp::Application.routes.draw do
-  get "nice/simple"
 
-  get "nice/many"
+	resources :basic, :only => [] do
+	  collection do
+	    get 'a'
+	    get 'b'
+	  end
+	end
 
   resources :books
 

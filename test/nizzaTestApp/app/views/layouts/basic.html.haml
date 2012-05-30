@@ -1,0 +1,14 @@
+- content_for :content do
+  %div
+    = link_to_function "go simple cached", "NiceEventDispatcher.dispatch_event('nice.state.CachedTransitionEvent',{transition_id : 'get_a_nice__get_b_nice'})"
+    .one{"data-state" => "get_nice_a"}
+      %h1 Container State A only
+      = yield(:container1)
+    .two{"data-state" => "get_nice_b"}
+      %h1 Container State B only
+      = yield(:container1)
+    .three{"data-state" => "get_nice_a get_nice_b", "data-state-update" => :yes}
+      %h1 Container shared in A and B
+      = yield(:container2)
+
+= render :template => 'layouts/application'
