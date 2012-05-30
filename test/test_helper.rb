@@ -1,9 +1,8 @@
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 
-require File.expand_path("../nizzaTestApp/config/environment.rb",  __FILE__)
+require File.expand_path("../nizzaTestApp/config/environment",  __FILE__)
 require "rails/test_help"
-require "webrat"
 
 Rails.backtrace_cleaner.remove_silencers!
 
@@ -20,7 +19,8 @@ if ActiveSupport::TestCase.method_defined?(:fixture_path=)
   ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
 end
 
+require "webrat"
 
 Webrat.configure do |config|
-  config.mode = :rails
+  config.mode = :rack
 end
