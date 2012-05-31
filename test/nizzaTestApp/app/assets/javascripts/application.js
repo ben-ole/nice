@@ -12,5 +12,11 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require prettify
 //= require_tree .
 //= require nice_jquery
+
+$().ready(function(){
+	prettyPrint();
+	$('.nav-tabs').button()
+});

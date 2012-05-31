@@ -1,22 +1,36 @@
 - content_for :content do
+	.row
+		.span4
+			%h1 Basic State Changes
+			%p Click the buttons to change the state.
 
-  .subnav.subnav-fixed
-    %ul.nav.nav-pills
-      %li{:class => current_page?(a_basic_index_path) ? "active" : ""}
-        = link_to "State A", a_basic_index_path, :remote => :true
-      %li{:class => current_page?(b_basic_index_path) ? "active" : ""}
-        = link_to "State B", b_basic_index_path, :remote => :true
-      %li{:class => current_page?(c_basic_index_path) ? "active" : ""}
-        = link_to "State C", c_basic_index_path, :remote => :true
+		.btn-group.offset4.span4.subnav{"data-toggle" => "buttons-radio"}
+			= link_to "State A", a_basic_index_path, :remote => :true, :class => "btn btn-primary btn-large"
+			= link_to "State B", b_basic_index_path, :remote => :true, :class => "btn btn-primary btn-large"
+			= link_to "State C", c_basic_index_path, :remote => :true, :class => "btn btn-primary btn-large"
 
-  %h1 This is basic demonstration of State Changes
+	.row
+		.hero-unit.span4
+			%h1{"data-state" => "get_basic_a"} State A
+			%h1{"data-state" => "get_basic_b"} State B
+			%h1{"data-state" => "get_basic_c"} State C
 
-  .hero-unit.span5
-    %h1{"data-state" => "get_basic_a"} State A
-    %h1{"data-state" => "get_basic_b"} State B
-    %h1{"data-state" => "get_basic_c"} State C
+		.hero-unit.span5{"data-state" => "get_basic_a get_basic_b", "data-state-update" => :yes}
+			%h1 State A + B
 
-    %p{"data-state" => "get_basic_a get_basic_b", "data-state-update" => :yes}
-      = yield(:container1)
+	.row{"data-state" => "get_basic_a get_basic_b get_basic_c", "data-state-update" => :yes}
+		.alert.alert-success= yield(:container1)
+
+	.row
+		%p.span8
+			As you can see - the whole page stays the same while the content of the boxes above changes with a click on State A, State B, State C. The following code demonstrates the source of the H1 tag in this box.
+
+	.row
+		%pre.span6.prettyprint.lang-haml.linenums
+			:escaped
+				.hero-unit.span5
+					%h1{"data-state" => "get_basic_a"} State A
+					%h1{"data-state" => "get_basic_b"} State B
+					%h1{"data-state" => "get_basic_c"} State C
 
 = render :template => 'layouts/application'

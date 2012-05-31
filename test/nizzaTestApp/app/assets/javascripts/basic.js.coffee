@@ -4,5 +4,7 @@
 
 # register interested events
 document.addEventListener("nice.ui.StateDidChangeEvent", (event) ->
+	# fade in H1
 	$('.hero-unit h1').fadeTo(0,0).delay(200).fadeTo(500,1.0)
+
 , false)

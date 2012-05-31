@@ -14,9 +14,10 @@
 
 body {
 
-	padding-top: 35px;
+	padding-top: 90px;
+
 }
 
-.subnav ul li a{
-	border-radius: 0 0 5px 5px;
+.row{
+	margin-bottom: 20px;
 }
