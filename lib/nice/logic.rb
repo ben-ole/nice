@@ -30,7 +30,7 @@ module Nice
     def self.run current_method, current_path, referer, doc
 
     	current_state = current_method.downcase + current_path.gsub("/", "_")
-      	p "current: #{current_state}"
+    	prev_state = referer.gsub("/","_") unless referer.nil?
 
       	referenced_doc = Nice::HtmlParser.annotate_referencing_nodes doc	
 
@@ -52,6 +52,9 @@ module Nice
       		js_stack << "// add browser history scripts"		
       		js_stack << Nice::Js::Caller.move_to_url(current_path,"title")
       		js_stack << Nice::Js::Caller.insert_or_update_back_listener(referer)
+
+      		js_stack << "// inform ui on state change"
+      		js_stack << Nice::Js::Caller.state_did_change(prev_state,current_state)
 
       		js_stack.join("\n")
       	end

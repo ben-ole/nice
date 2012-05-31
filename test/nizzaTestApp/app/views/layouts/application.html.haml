@@ -6,6 +6,12 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
-    #meat
-      This is the application container
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          = link_to "Nice State Engine","#", :class => "brand"
+          %ul.nav
+            %li= link_to "Basic Example", a_basic_index_path
+            %li= link_to "REST", books_path
+    .container
       \#{content_for?(:content) ? yield(:content) : yield}

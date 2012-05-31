@@ -12,6 +12,7 @@ group :development, :test do
   gem 'webrat'
   gem 'selenium-client'  
   gem 'haml'
+  gem 'mongrel', '>= 1.2.0.pre2'
 end 
 
 # Declare any dependencies that are still in development here instead of in

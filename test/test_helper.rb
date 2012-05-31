@@ -24,4 +24,7 @@ require "webrat"
 
 Webrat.configure do |config|
   config.mode = :rack
+#  config.application_framework = :rails
+#  config.selenium_server_address = "127.0.0.1"
+#  config.selenium_server_port = "3000"
 end

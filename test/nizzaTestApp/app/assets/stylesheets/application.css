@@ -12,12 +12,6 @@
  *= require_tree .
 */
 
-body{
-	 background-color: #222;
-	 color: #EEE;
-}
-
-#meat{
-	width: 960px;
-	margin: auto;
+.subnav ul li a{
+	border-radius: 0 0 5px 5px;
 }

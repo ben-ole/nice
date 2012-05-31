@@ -12,7 +12,7 @@ module Nice
 			end
 
 			def self.generate_js_remove curr_state
-				"NiceEventDispatcher.dispatch_event(\'nice.dom.RemoveStateEvent\',{curr_state:\'#{curr_state}\'},true,'get_many_nice__get_simple_nice');"				
+				"NiceEventDispatcher.dispatch_event(\'nice.dom.RemoveStateEvent\',{curr_state:\'#{curr_state}\'});"				
 			end
 
 
@@ -23,6 +23,11 @@ module Nice
 
 			def self.insert_or_update_back_listener url
 				"NiceEventDispatcher.dispatch_event(\'nice.hist.PopHistoryEvent\',{url:\'#{url}\'});"
+			end
+
+			# events for UI
+			def self.state_did_change prev_state, new_state
+				"NiceEventDispatcher.dispatch_event(\'nice.ui.StateDidChangeEvent\',{prev_state:\'#{prev_state}\', new_state:\"#{new_state}\"});"
 			end
 		end
 	end

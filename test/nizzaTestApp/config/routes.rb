@@ -4,6 +4,7 @@ NizzaTestApp::Application.routes.draw do
 	  collection do
 	    get 'a'
 	    get 'b'
+	    get 'c'
 	  end
 	end
 
