@@ -1,5 +1,4 @@
 - content_for :content do
-  %h1 This is basic demonstration of State Changes
 
   .subnav.subnav-fixed
     %ul.nav.nav-pills
@@ -9,6 +8,8 @@
         = link_to "State B", b_basic_index_path, :remote => :true
       %li{:class => current_page?(c_basic_index_path) ? "active" : ""}
         = link_to "State C", c_basic_index_path, :remote => :true
+
+  %h1 This is basic demonstration of State Changes
 
   .hero-unit.span5
     %h1{"data-state" => "get_basic_a"} State A

@@ -27,7 +27,7 @@ module Nice
 	
   class Logic
     
-    def self.run current_method, current_path, referer, doc
+    def self.run current_method, current_path, referer, doc, is_js
 
     	current_state = current_method.downcase + current_path.gsub("/", "_")
     	prev_state = referer.gsub("/","_") unless referer.nil?
@@ -37,7 +37,7 @@ module Nice
       	cleaned_doc = Nice::HtmlParser.remove_elements_not_of_state current_state, referenced_doc
       	
       	# case 1
-      	if referer == nil then   
+      	if !is_js then   
 
       		cleaned_doc.to_html
 

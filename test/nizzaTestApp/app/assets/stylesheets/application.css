@@ -12,6 +12,11 @@
  *= require_tree .
 */
 
+body {
+
+	padding-top: 35px;
+}
+
 .subnav ul li a{
 	border-radius: 0 0 5px 5px;
 }

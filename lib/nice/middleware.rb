@@ -31,13 +31,15 @@ module Nice
 
       status, @headers, @body = @app.call(env)
       
-      if html? || js?
+      @is_js = Rack::Request.new(env).xhr?
+
+      if html? || @is_js
       	 @referer = env["HTTP_REFERER"]
       	 @method = env["REQUEST_METHOD"]
       	 @path = env["PATH_INFO"]
 
       	 # in case 2+3 the response will be plain javascript
-      	 if @referer
+      	 if @is_js
       	 	@headers = {"Content-Type" => "text/javascript"}
       	 end
 
@@ -48,9 +50,9 @@ module Nice
     end
     
     def each(&block)
-      if html? || js?
+      if html? || @is_js
         block.call("<!-- previous state: #{@referer} -->\n")
-        block.call( Nice::Logic.run( @method, @path, @referer, doc ) )
+        block.call( Nice::Logic.run( @method, @path, @referer, doc, @is_js) )
       else
         block.call(@body)
       end
@@ -61,10 +63,6 @@ module Nice
     
     def html?
       @headers["Content-Type"] && @headers["Content-Type"].include?("text/html")
-    end
-    
-    def js?
-      @headers["Content-Type"] && @headers["Content-Type"].include?("text/javascript")
     end
 
     def doc
