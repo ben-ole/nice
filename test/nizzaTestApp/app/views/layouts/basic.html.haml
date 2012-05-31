@@ -10,16 +10,19 @@
 			= link_to "State C", c_basic_index_path, :remote => :true, :class => "btn btn-primary btn-large"
 
 	.row
-		.hero-unit.span4
-			%h1{"data-state" => "get_basic_a"} State A
-			%h1{"data-state" => "get_basic_b"} State B
-			%h1{"data-state" => "get_basic_c"} State C
+		.span6
+			.hero-unit
+				%h1{"data-state" => "get_basic_a"} State A
+				%h1{"data-state" => "get_basic_b"} State B
+				%h1{"data-state" => "get_basic_c"} State C
 
-		.hero-unit.span5{"data-state" => "get_basic_a get_basic_b", "data-state-update" => :yes}
-			%h1 State A + B
+		.span6
+			.hero-unit{"data-state" => "get_basic_a get_basic_b", "data-state-update" => :yes}
+				%h1 State A + B
 
 	.row{"data-state" => "get_basic_a get_basic_b get_basic_c", "data-state-update" => :yes}
-		.alert.alert-success= yield(:container1)
+		.span12
+			.alert.alert-success= yield(:container1)
 
 	.row
 		%p.span8
