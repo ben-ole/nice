@@ -11,8 +11,10 @@
 				.container
 					= link_to "Nice State Engine","#", :class => "brand"
 					%ul.nav
+						%li test
 						%li= link_to "Basic Example", a_basic_index_path
-						%li= link_to "REST", books_path
+						%li= link_to "State Transitions", "#"
+						%li= link_to "RESTful Resource", books_path
 		.container
 			\#{content_for?(:content) ? yield(:content) : yield}
 
@@ -25,3 +27,8 @@
 						%p
 							This page was built with
 							= link_to "Bootstrap.", "http://twitter.github.com/bootstrap/index.html"
+							
+							= link_to "path/to/page.html" do
+								Other page
+								%i.icon-home
+
