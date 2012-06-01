@@ -1,17 +1,27 @@
 !!!
 %html
-  %head
-    %title NizzaTestApp
-    = stylesheet_link_tag    "application", :media => "all"
-    = javascript_include_tag "application"
-    = csrf_meta_tags
-  %body
-    .navbar.navbar-fixed-top
-      .navbar-inner
-        .container
-          = link_to "Nice State Engine","#", :class => "brand"
-          %ul.nav
-            %li= link_to "Basic Example", a_basic_index_path
-            %li= link_to "REST", books_path
-    .container
-      \#{content_for?(:content) ? yield(:content) : yield}
+	%head
+		%title NizzaTestApp
+		= stylesheet_link_tag    "application", :media => "all"
+		= javascript_include_tag "application"
+		= csrf_meta_tags
+	%body
+		.navbar.navbar-fixed-top
+			.navbar-inner
+				.container
+					= link_to "Nice State Engine","#", :class => "brand"
+					%ul.nav
+						%li= link_to "Basic Example", a_basic_index_path
+						%li= link_to "REST", books_path
+		.container
+			\#{content_for?(:content) ? yield(:content) : yield}
+
+			%footer
+				.row
+					.span2
+						= image_tag "bootstrap.png"
+				.row
+					.span2
+						%p
+							This page was built with
+							= link_to "Bootstrap.", "http://twitter.github.com/bootstrap/index.html"

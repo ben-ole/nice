@@ -1,6 +1,2 @@
 - content_for :container1 do
-  state b, time now: 
-  = Time.now 
-- content_for :container2 do
-  %p state b
-    
+	= "Time: #{Time.now.asctime}"

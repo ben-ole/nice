@@ -1,39 +1,82 @@
 - content_for :content do
 	.row
+		.span8
+			%h1 Basic State Desgin <small>Click the buttons to change the state.</small>
+
 		.span4
-			%h1 Basic State Changes
-			%p Click the buttons to change the state.
-
-		.btn-group.offset4.span4.subnav{"data-toggle" => "buttons-radio"}
-			= link_to "State A", a_basic_index_path, :remote => :true, :class => "btn btn-primary btn-large"
-			= link_to "State B", b_basic_index_path, :remote => :true, :class => "btn btn-primary btn-large"
-			= link_to "State C", c_basic_index_path, :remote => :true, :class => "btn btn-primary btn-large"
+			.btn-group.subnav.right{"data-toggle" => "buttons-radio"}
+				= link_to "State A", a_basic_index_path, :remote => :true, :class => "btn btn-primary btn-large #{current_page?(a_basic_index_path) ? 'active' : ''}"
+				= link_to "State B", b_basic_index_path, :remote => :true, :class => "btn btn-primary btn-large #{current_page?(b_basic_index_path) ? 'active' : ''}"
+				= link_to "State C", c_basic_index_path, :remote => :true, :class => "btn btn-primary btn-large #{current_page?(c_basic_index_path) ? 'active' : ''}"
 
 	.row
-		.span6
+		.span10
+			%p
+				The three boxes below demonstrate the use of multiple states within one page. All updates are loaded via AJAX and the main page stays untouched. The corresponding code shows how easy states can be implemented.
+
+	.row
+		.span4
 			.hero-unit
-				%h1{"data-state" => "get_basic_a"} State A
-				%h1{"data-state" => "get_basic_b"} State B
-				%h1{"data-state" => "get_basic_c"} State C
+				%h1{"data-state" => "get_basic_a"} <small>State</small> A
+				%h1{"data-state" => "get_basic_b"} <small>State</small> B
+				%h1{"data-state" => "get_basic_c"} <small>State</small> C
 
-		.span6
-			.hero-unit{"data-state" => "get_basic_a get_basic_b", "data-state-update" => :yes}
-				%h1 State A + B
+		.span4
+			.hero-unit{"data-state" => "get_basic_a get_basic_b"}
+				%h1 <small>State</small> A+B
 
-	.row{"data-state" => "get_basic_a get_basic_b get_basic_c", "data-state-update" => :yes}
-		.span12
-			.alert.alert-success= yield(:container1)
-
-	.row
-		%p.span8
-			As you can see - the whole page stays the same while the content of the boxes above changes with a click on State A, State B, State C. The following code demonstrates the source of the H1 tag in this box.
+		.span4{"data-state" => "get_basic_a get_basic_b", "data-state-update" => :yes}
+			.hero-unit
+				%h1 <small>State</small> A+B
+			.alert.alert-info
+				= yield(:container1) 
 
 	.row
-		%pre.span6.prettyprint.lang-haml.linenums
-			:escaped
-				.hero-unit.span5
-					%h1{"data-state" => "get_basic_a"} State A
-					%h1{"data-state" => "get_basic_b"} State B
-					%h1{"data-state" => "get_basic_c"} State C
+		.span4
+			%h2 Single State Component
+
+			%pre.prettyprint.lang-haml
+				:escaped
+					.hero-unit
+					  %h1{"data-state" => "get_basic_a"} A
+					  %h1{"data-state" => "get_basic_b"} B
+					  %h1{"data-state" => "get_basic_c"} C
+
+			%p
+				As you can see - the whole page stays the same while the content of the boxes above changes with a click on State A, State B, State C.
+
+
+		.span4
+			%h2 Multi State Component
+
+			%pre.prettyprint.lang-haml
+				:escaped
+					.hero-unit{"data-state" => "get_basic_a get_basic_b"}
+					  %h1 State A + B
+
+			%p
+				The box above is owned by state A and B and not included in state C. The definition of this component is implemented in the 
+				%i layouts/basic.html.haml  
+				only once. This technique avoids replication of the same code and offers the ability to leave state components untouched even when the state is changing.
+
+		.span4
+			%h2 Multi State <small>with updates</small>
+
+			%pre.prettyprint.lang-haml
+				:escaped
+					- content_for :container1 do
+					  = "Time: \#{Time.now.asctime}"
+
+			%pre.prettyprint.lang-haml
+				:escaped
+					.alert.alert-info{"data-state" => "get_basic_a get_basic_b", "data-state-update" => :yes}
+					  = yield(:container1)
+
+			%p
+				In case the component contains something which needs to be updated on state transition, you can put
+				%code data-state-update => :yes
+				attribute. This will reload the component on every state transition as you can see on the time stamp below.
+
+		
 
 = render :template => 'layouts/application'
