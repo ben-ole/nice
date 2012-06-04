@@ -1,7 +1,7 @@
 !!!
 %html
 	%head
-		%title NizzaTestApp
+		%title Nice State Engine
 		= stylesheet_link_tag    "application", :media => "all"
 		= javascript_include_tag "application"
 		= csrf_meta_tags
@@ -9,9 +9,11 @@
 		.navbar.navbar-fixed-top
 			.navbar-inner
 				.container
-					= link_to "Nice State Engine","#", :class => "brand"
 					%ul.nav
-						%li test
+						%li
+							= link_to "/" do
+								%i.icon-home.icon-white							
+								Overview
 						%li= link_to "Basic Example", a_basic_index_path
 						%li= link_to "State Transitions", "#"
 						%li= link_to "RESTful Resource", books_path
@@ -27,8 +29,4 @@
 						%p
 							This page was built with
 							= link_to "Bootstrap.", "http://twitter.github.com/bootstrap/index.html"
-							
-							= link_to "path/to/page.html" do
-								Other page
-								%i.icon-home
 

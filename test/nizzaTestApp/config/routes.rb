@@ -7,6 +7,12 @@ NizzaTestApp::Application.routes.draw do
 	    get 'c'
 	  end
 	end
+	
+	resources :pages, :only => [] do
+		collection do
+			get 'overview'
+		end
+	end
 
   resources :books
 
@@ -59,7 +65,7 @@ NizzaTestApp::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'books#index'
+  root :to => 'pages#overview'
 
   # See how all your routes lay out with "rake routes"
 

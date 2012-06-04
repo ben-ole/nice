@@ -1,0 +1,86 @@
+%header
+	.hero-unit
+		%h1 Nice State Engine
+		%p A Ruby on Rails framework to create robust AJAX driven webpages.
+	
+	
+	%ul.quick-links.lead
+		%li= link_to "What is Nice?", "#what"
+		%li= link_to "Features","#features"
+		%li= link_to "Background","#background"			
+		%li= link_to "Getting Started","#start"	
+		%li= link_to "Example", a_basic_index_path
+		
+%hr.soften
+
+#features
+	%h2 Features
+	
+	.row
+		.span4
+			=image_tag "html5.png", :size => "45x45"
+			%h3 HTML5 Annotations
+			%p
+				Your code keeps clean. Nice State Engine uses HTML5 data attributes instead of class or id properties to annotate your source on demand.
+				
+		.span4
+			%h3 State Design
+			%p
+				Instead of writing transition code in JS, you define the view entirely server side. The transition code is generated auto-magically by the Nice State Engine.
+				
+		.span4
+			%h3 Browser History
+			%p
+				Browser history management comes bundled and doesn't require you to write anything.
+				
+	.row
+		.span4
+			%h3 Minimized Data Transfer
+			%p
+				Nice State Engine reduces the amount of server-client data transfer to a minimum and can therefore enhance the user experience.
+				
+		.span4
+			%h3 JQuery, but
+			%p
+				Currently, the engine ships with a <em>JQuery</em> adapter to perform DOM manipulation client side. This adapter is event driven and can be replaced by any other JS code if there is a demand.
+				
+		.span4
+			%h3 Unobstrusive
+			%p
+				The whole framework is as much as posssible unobstrusive and does not require you to change a lot. There are no requirements other than Rails > 3.1 and JQuery in your project.
+				
+	.row
+		.span4
+			%h3 Multi State Elements
+			%p
+				You have the same element in multiple states? No problem, just provide a space-separated list of state names like this:
+				%br
+				<code>data-state="data-state1 data-state2"</code> to define  the annotated element should be included.
+				
+		.span4
+			%h3 Updating Elements
+			%p
+				It is up to you whether elements should be updated on state transition or stay untouched.
+				
+		.span4
+			%h3 State Preloading
+			%p
+				To keep full benefit of javascript, Nice provides an easy way to preload state transitions for the case there is no server data required.
+
+#background
+	
+	%h2 Background
+	
+	%p
+		Nice is a light-weight engine which puts some magic into JS/AJAX driven Rails pages with the aim to ease the development of rich and interactive restful web applications while improving the robustness at the sametime. 
+		The idea is about state defintions as they are known in Adobe Flex for a while which represent one visiual status displayed to the user. In response to an event (typically user interaction), this state can change. Think of page states as of one visual view presented to the user - or for RESTful applications, one state is tied to one route. While plain HTML requires a page refresh to update the visual presentation, Javascript introduced a possiblity to define a transitition to the next state by adding or removing elements on the fly. Although this is an enhancement with regards to user experience, but the source code gets messed up easily, because the view will be generated both on the server and dynamically in the browser. Furthermore rendering code will be written twice and we all know that this leads to incoherence. Finally, the idea of Nice is to put the view generation entirely on the backend side (where it should be for several reasons!) and let the state transitions happen auto-magically. Instead of coding the changes between different states you will simply code your states by annotating which page elements belong to which state and Nice generates the glue code to transit between states - no matter how many states you have. Specially if you consider having multiple states you have to write a lot of code in plain javascript to handle all possible state changes, Nice can handle this easily and consistently.
+		The whole framework is aimed to be non-intrusive as much as possible, so the way you regulary write your rails apps won't change dramatically.
+		
+#start
+
+	%h2 Getting Started
+	
+	%p< 
+		The project is hosted on 
+		=link_to "Github.","https://github.com/elchbenny/nice"
+		I suggest cloning or downloading the project as this website is also included in the <code>test/example</code> directory which may be a good starting point. Hava a look at the <em>basic</em> controller and views to get an idea on how to work with the Nice State Engine.
