@@ -2,7 +2,8 @@
 	.hero-unit
 		%h1 Nice State Engine
 		%p A Ruby on Rails framework to create robust AJAX driven webpages.
-	
+		%p
+			=link_to "Experience »", a_basic_index_path, :class => "btn btn-large btn-primary"
 	
 	%ul.quick-links.lead
 		%li= link_to "What is Nice?", "#what"
@@ -12,6 +13,30 @@
 		%li= link_to "Example", a_basic_index_path
 		
 %hr.soften
+
+#what
+
+	.row
+		%p.lead.span10.offset1.center
+			Nice is a light-weight engine that puts some magic into JS/AJAX driven Rails pages with the aim to ease the development of rich and interactive restful web applications while improving the robustness at the sametime.
+	
+	.row
+
+		.span7
+			=image_tag "nice_pattern.png"
+						
+		.span4.offset1
+			%h6 1. Page Request 
+			%p The user triggers a page request either HTML or JS when he is already on the site.
+		
+			%h6 1. Page Request 
+			%p The user triggers a page request either HTML or JS when he is already on the site.
+			
+			%h6 1. Page Request 
+			%p The user triggers a page request either HTML or JS when he is already on the site.
+			
+			%h6 1. Page Request 
+			%p The user triggers a page request either HTML or JS when he is already on the site.								
 
 #features
 	%h2 Features
@@ -72,7 +97,6 @@
 	%h2 Background
 	
 	%p
-		Nice is a light-weight engine which puts some magic into JS/AJAX driven Rails pages with the aim to ease the development of rich and interactive restful web applications while improving the robustness at the sametime. 
 		The idea is about state defintions as they are known in Adobe Flex for a while which represent one visiual status displayed to the user. In response to an event (typically user interaction), this state can change. Think of page states as of one visual view presented to the user - or for RESTful applications, one state is tied to one route. While plain HTML requires a page refresh to update the visual presentation, Javascript introduced a possiblity to define a transitition to the next state by adding or removing elements on the fly. Although this is an enhancement with regards to user experience, but the source code gets messed up easily, because the view will be generated both on the server and dynamically in the browser. Furthermore rendering code will be written twice and we all know that this leads to incoherence. Finally, the idea of Nice is to put the view generation entirely on the backend side (where it should be for several reasons!) and let the state transitions happen auto-magically. Instead of coding the changes between different states you will simply code your states by annotating which page elements belong to which state and Nice generates the glue code to transit between states - no matter how many states you have. Specially if you consider having multiple states you have to write a lot of code in plain javascript to handle all possible state changes, Nice can handle this easily and consistently.
 		The whole framework is aimed to be non-intrusive as much as possible, so the way you regulary write your rails apps won't change dramatically.
 		
