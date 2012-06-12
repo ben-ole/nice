@@ -7,3 +7,4 @@ test/dummy/tmp/
 test/dummy/.sass-cache
 
 test/nizzaTestApp/Gemfile.lock
+.DS_Store
