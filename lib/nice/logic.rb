@@ -53,6 +53,9 @@ module Nice
       		js_stack << Nice::Js::Caller.move_to_url(current_path,"title")
       		js_stack << Nice::Js::Caller.insert_or_update_back_listener(referer)
 
+          js_stack << "// trigger transition animation"
+          js_stack << Nice::Js::Caller.perform_transition_animations()
+
       		js_stack << "// inform ui on state change"
       		js_stack << Nice::Js::Caller.state_did_change(prev_state,current_state)
 

@@ -30,6 +30,10 @@ class NiceJquery
 			xmlHttp.send(null)
 			eval(xmlHttp.responseText)
 		)
+	
+	# Trigger Transition Animations	
+	@perform_transition_animation: (event) ->
+		$("[data-state][data-state-transition!='none']").fadeTo(0,0).delay(200).fadeTo(500,1.0)
 
 
 ## add event listener
@@ -38,3 +42,4 @@ document.addEventListener "nice.dom.InsertInsideEvent", NiceJquery.insert_inside
 document.addEventListener "nice.dom.RemoveStateEvent", NiceJquery.remove_state_elements, false
 document.addEventListener "nice.hist.ChangeURLEvent", NiceJquery.move_to_url, false
 document.addEventListener "nice.hist.PopHistoryEvent", NiceJquery.insert_or_update_back_listener, false
+document.addEventListener "nice.trsn.AnimateEvent", NiceJquery.perform_transition_animation, false

@@ -29,6 +29,12 @@ module Nice
 			def self.state_did_change prev_state, new_state
 				"NiceEventDispatcher.dispatch_event(\'nice.ui.StateDidChangeEvent\',{prev_state:\'#{prev_state}\', new_state:\"#{new_state}\"});"
 			end
+			
+			# State Transition Animations
+			def self.perform_transition_animations
+			  "NiceEventDispatcher.dispatch_event(\'nice.trsn.AnimateEvent\');"
+			end
+			
 		end
 	end
 end
