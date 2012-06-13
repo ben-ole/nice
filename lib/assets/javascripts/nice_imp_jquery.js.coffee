@@ -35,6 +35,12 @@ class NiceJquery
 	@perform_transition_animation: (event) ->
 		$("[data-state][data-state-transition!='none']").fadeTo(0,0).delay(200).fadeTo(500,1.0)
 
+document.nice =
+	transitions:
+		def: 
+			duration: 200
+			properties:
+				alpha: 0
 
 ## add event listener
 document.addEventListener "nice.dom.InsertAfterEvent", NiceJquery.insert_after, false
