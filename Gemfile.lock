@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    nice (0.0.3)
+    nice (0.0.4)
       nokogiri
       rails (~> 3.2.3)
 
