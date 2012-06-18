@@ -50,6 +50,7 @@ class NiceJquery
 				
 		styles = []
 		durations = []
+		easing = []
 		
 		animated_elements.each (index,elem) => 
 		
@@ -69,10 +70,12 @@ class NiceJquery
 				# rescue default transition		
 				transition_def = 
 					duration: 200
+					easing: "linear"
 					properties:
 						opacity: 0.0
 						
 			durations.push transition_def.duration
+			easing.push transition_def.easing
 				
 			# get current style values and apply start values
 			style = {}
@@ -88,7 +91,7 @@ class NiceJquery
 		
 		# animate		
 		animated_elements.each (index,elem) => 
-			$(elem).animate(styles[index],durations[index]) if styles[index]?
+			$(elem).animate(styles[index],durations[index],easing[index]) if styles[index]?
 
 ## add event listener
 document.addEventListener "nice.dom.InsertAfterEvent", NiceJquery.insert_after, false
