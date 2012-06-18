@@ -3,11 +3,13 @@ class NiceJquery
 
 	# insert element after referencing node
 	@insert_after: (event) ->
-		$(event.ref_node).after(event.new_node)
+		act = (ref,ins) -> ref.after(ins)
+		NiceJquery.perform_transition(event.ref_node, event.new_node, act)
 
 	# insert element at first position inside referencing node
 	@insert_inside: (event) ->
-		$(event.ref_node).prepend(event.new_node)
+		act = (ref,ins) -> ref.prepend(ins)		
+		NiceJquery.perform_transition(event.ref_node, event.new_node, act)
 
 	# remove all elements which are not of current state and all elements
 	# which are of current state and secondly annotated to be always updated.
@@ -31,22 +33,50 @@ class NiceJquery
 			eval(xmlHttp.responseText)
 		)
 	
-	# Trigger Transition Animations	
-	@perform_transition_animation: (event) ->
-		$("[data-state][data-state-transition!='none']").each (index, element) => 
-			transition = $(element)?.data('state-transition')
-			
-			#if( transition? )
-			#	transition_def = NiceTransition[transition]
-				
+	
+	
+	
+	# each DOM Manipulation should call this method which will apply the transition animation start values 
+	# to the elements before inserting into the DOM tree and the trigger the animation
+	@perform_transition: (elem_ref, elem_new, action) ->
+		
+		# get jquery obj of element to insert
+		e = $(elem_new)
+		e_ref = $(elem_ref)
+		return if !e? || !e_ref?
+		
+		# get transition style
+		transition = e.data('state-transition')
+		
+		if transition != "none" 	# skip animation stuff when elment is marked with "none"
+		
+			# get custom defined transition definitions
+			if( NiceTransitions? )				
+				transition_def = if(transition) then NiceTransitions[transition] else NiceTransitions.default		
+		
+			# if no custom definitions exist - generate a default to do something at least
 			if( !transition_def? )
-				#default transition
+				if transition?
+					console.log("Custom Transition Definition for #{transition} is missing! Please create a NiceTransitions class and configure your transitions.")
+			
+				# rescue default transition		
 				transition_def = 
 					duration: 200
 					properties:
-						alpha: 0
+						opacity: 0.0
+					
+			# get current style values and apply start values
+			styles = {}
+			for style_key, style_val of transition_def.properties
+				old_value = e.css(style_key)
+				e.css(style_key, style_val)
+				styles[style_key] = old_value
 						
-			element.fadeTo(transition_def.properties.alpha,0).delay(200).fadeTo(transition_def.duration,1.0)
+		# insert element
+		action(e_ref, e)
+		
+		# apply transition		
+		e.animate(styles,transition_def.duration) if styles?
 
 ## add event listener
 document.addEventListener "nice.dom.InsertAfterEvent", NiceJquery.insert_after, false
@@ -54,4 +84,3 @@ document.addEventListener "nice.dom.InsertInsideEvent", NiceJquery.insert_inside
 document.addEventListener "nice.dom.RemoveStateEvent", NiceJquery.remove_state_elements, false
 document.addEventListener "nice.hist.ChangeURLEvent", NiceJquery.move_to_url, false
 document.addEventListener "nice.hist.PopHistoryEvent", NiceJquery.insert_or_update_back_listener, false
-document.addEventListener "nice.trsn.AnimateEvent", NiceJquery.perform_transition_animation, false
