@@ -45,38 +45,54 @@ class NiceJquery
 		e_ref = $(elem_ref)
 		return if !e? || !e_ref?
 		
-		# get transition style
-		transition = e.data('state-transition')
+		filter = '[data-state-transition][data-state-transition!="none"]'
+		animated_elements = e.find('*').andSelf().filter(filter)
+				
+		styles = []
+		durations = []
 		
-		if transition != "none" 	# skip animation stuff when elment is marked with "none"
+		animated_elements.each (index,elem) => 
+		
+			# get transition style
+			a_e = $(elem)
+			transition = a_e.data('state-transition')
 		
 			# get custom defined transition definitions
 			if( NiceTransitions? )				
 				transition_def = if(transition) then NiceTransitions[transition] else NiceTransitions.default		
-		
+	
 			# if no custom definitions exist - generate a default to do something at least
 			if( !transition_def? )
 				if transition?
-					console.log("Custom Transition Definition for #{transition} is missing! Please create a NiceTransitions class and configure your transitions.")
-			
+					console.log("Custom Transition Definition for \"#{transition}\" is missing! Please create a NiceTransitions class and configure your transitions.")
+		
 				# rescue default transition		
 				transition_def = 
 					duration: 200
 					properties:
 						opacity: 0.0
-					
+						
+			durations.push transition_def.duration
+				
 			# get current style values and apply start values
-			styles = {}
+			style = {}
 			for style_key, style_val of transition_def.properties
-				old_value = e.css(style_key)
-				e.css(style_key, style_val)
-				styles[style_key] = old_value
+				old_value = a_e.css(style_key)
+				a_e.css(style_key, style_val)
+				style[style_key] = old_value
+			
+			console.log(style)
+				
+			styles.push style
 						
 		# insert element
 		action(e_ref, e)
 		
-		# apply transition		
-		e.animate(styles,transition_def.duration) if styles?
+		# animate
+		console.log(styles)
+		
+		animated_elements.each (index,elem) => 
+			$(elem).animate(styles[index],durations[index]) if styles[index]?
 
 ## add event listener
 document.addEventListener "nice.dom.InsertAfterEvent", NiceJquery.insert_after, false
