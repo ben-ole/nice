@@ -80,17 +80,13 @@ class NiceJquery
 				old_value = a_e.css(style_key)
 				a_e.css(style_key, style_val)
 				style[style_key] = old_value
-			
-			console.log(style)
-				
+							
 			styles.push style
 						
 		# insert element
 		action(e_ref, e)
 		
-		# animate
-		console.log(styles)
-		
+		# animate		
 		animated_elements.each (index,elem) => 
 			$(elem).animate(styles[index],durations[index]) if styles[index]?
 
