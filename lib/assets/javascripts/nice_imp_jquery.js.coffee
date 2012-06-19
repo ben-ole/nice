@@ -65,7 +65,8 @@ class NiceJquery
 			# if no custom definitions exist - generate a default to do something at least
 			if( !transition_def? )
 				if transition?
-					console.log("Custom Transition Definition for \"#{transition}\" is missing! Please create a NiceTransitions class and configure your transitions.")
+					console.log("Custom Transition Definition for \"#{transition}\" is \
+					missing! Please create a NiceTransitions class and configure your transitions.")
 		
 				# rescue default transition		
 				transition_def = 
