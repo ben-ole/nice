@@ -39,7 +39,7 @@ module Nice
       	# case 1
       	if !is_js then   
 
-      		cleaned_doc.to_html
+          Nice::HtmlParser.add_top_css(cleaned_doc, current_state).to_html
 
       	# case 2
       	else   
@@ -55,6 +55,8 @@ module Nice
 
       		js_stack << "// inform ui on state change"
       		js_stack << Nice::Js::Caller.state_did_change(prev_state,current_state)
+
+      		js_stack << Nice::Js::Caller.change_top_css(current_state)      		
 
       		js_stack.join("\n")
       	end

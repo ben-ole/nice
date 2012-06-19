@@ -1,5 +1,15 @@
 ## default event handler
 class NiceJquery
+	
+	# css top class manipulation
+	@change_top_css: (event) ->
+		# remove global state class and add new one
+		reg = /// ^
+				state-\S+
+		///
+		matches = $("body").attr("class")?.match(reg)
+		$("body").removeClass(c_name) for c_name in matches if matches?
+		$("body").addClass("state-#{event.new_state_name}")	
 
 	# insert element after referencing node
 	@insert_after: (event) ->
@@ -32,8 +42,6 @@ class NiceJquery
 			xmlHttp.send(null)
 			eval(xmlHttp.responseText)
 		)
-	
-	
 	
 	
 	# each DOM Manipulation should call this method which will apply the transition animation start values 
@@ -98,5 +106,7 @@ class NiceJquery
 document.addEventListener "nice.dom.InsertAfterEvent", NiceJquery.insert_after, false
 document.addEventListener "nice.dom.InsertInsideEvent", NiceJquery.insert_inside, false
 document.addEventListener "nice.dom.RemoveStateEvent", NiceJquery.remove_state_elements, false
+document.addEventListener "nice.dom.ChangeTopCssEvent", NiceJquery.change_top_css, false
 document.addEventListener "nice.hist.ChangeURLEvent", NiceJquery.move_to_url, false
 document.addEventListener "nice.hist.PopHistoryEvent", NiceJquery.insert_or_update_back_listener, false
+

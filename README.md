@@ -84,6 +84,41 @@ This restriction is imposed by the way how the middleware calculates reference p
 
 All links in your application should now use the ```:remote => :true``` attribute to ensure the requests will be sent using javascript by default.
 
+### State Transitions
+
+Nice offers the ability to make your state changes even smoother by using either JS and/or CSS. Every element inside a <code>data-state</code> with <code>data-state-transition=\"default\"</code> will be animated using the corresponding transition configuration. By default, a linear fade-in over 200ms is used, but you can override or configure any other property animation. You need to provide your configuration by creating some JS functions. I recommend using [coffee-script](http://coffeescript.org) and name the file *nice-transitions.js.coffee*:
+
+```
+class this.NiceTransitions
+	@default = 
+		duration: 1000
+		easing: "linear"
+		properties:
+			opacity: 0.0
+	
+	@fade_slow = 
+		duration: 2000
+		easing: "linear"			
+		properties:
+			opacity: 0.0
+			
+	@slide_top =
+		duration: 1000
+		easing: "swing"			
+		properties:
+			"top": "-200px"
+```			
+
+The body class gets the always a CSS class with the following naming convention assigned: <code>state-\{current_state_name\}</code>. You can use this to configure your styles per state like this:
+
+```
+.state-get_basic_a{
+	.set2, .set3{
+		opacity: 0.4;
+	}
+}
+```
+
 ### Features
 
 *Nice* is still in early stages and there is truly a lot to do. If you feel intrested and want to contribute, please don't hestitate to start work on one of the following features or enhance existing ones. 

@@ -114,7 +114,11 @@ module Nice
 
   		doc
   	end
-	
+
+	  def self.add_top_css doc, current_state
+	    doc.css("body").add_class("state-#{current_state}")
+	    doc
+	  end
 	
   	private
 	

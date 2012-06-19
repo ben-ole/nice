@@ -30,9 +30,9 @@ module Nice
 				"NiceEventDispatcher.dispatch_event(\'nice.ui.StateDidChangeEvent\',{prev_state:\'#{prev_state}\', new_state:\"#{new_state}\"});"
 			end
 			
-			# State Transition Animations
-			def self.perform_transition_animations
-			  "NiceEventDispatcher.dispatch_event(\'nice.trsn.AnimateEvent\');"
+			# Change Body Css Class to reflect current state
+			def self.change_top_css new_state_name
+			  "NiceEventDispatcher.dispatch_event(\'nice.dom.ChangeTopCssEvent\',{new_state_name:\'#{new_state_name}\'});"
 			end
 			
 		end
