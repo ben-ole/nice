@@ -3,11 +3,8 @@
 ## What?
 
 *Nice* is a light-weight engine which puts some *magic* into JS/AJAX driven Rails pages with the aim to ease the development of rich and interactive restful web applications.
-The idea is about state defintions as they are known in Adobe Flex for a while which represent one visiual status displayed to the user. In response to an event (typically user interaction), this state can change. 
-Think of page states as of one visual view presented to the user - or for RESTful applications, one state is tied to one route.
-While plain HTML requires a page refresh to update the visual presentation, Javascript introduced a possiblity to define a transitition to the next state by adding or removing elements on the fly. Although this is an enhancement with regards to user experience, but the source code gets messed up easily, because the view will be generated both on the server and dynamically in the browser. Furthermore rendering code will be written twice and we all know that this leads to incoherence. Finally, the idea of *Nice* is to put the view generation entirely on the backend side (where it should be for several reasons!) and let the state transitions happen auto-magically. Instead of coding the changes between different states you will simply code your states by annotating which page elements belong to which state and *Nice* generates the glue code to transit between states - no matter how many states you have. Specially if you consider having multiple states you have to write a lot of code in plain javascript to handle all possible state changes, *Nice* can handle this easily and consistently.
 
-The whole framework is aimed to be non-intrusive as much as possible, so the way you regulary write your rails apps won't change dramatically.
+Go [here](http://nice.codebility.com) for an example and a detailed description.
 
 ## How to use
 
@@ -104,7 +101,7 @@ Nice is a middleware which processes all HTML and JS requests by either removing
 
 ## Roadmap / Contribute
 
--  better example application
+-  css class manipulation and css3 transition support
 -  test cases
 -  customization of state names
 -  customization of HTML5 attribute names
