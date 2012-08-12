@@ -61,11 +61,17 @@ module Nice
       		
       	# case 4
       	elsif !controller_same && is_js then
-          js_stack = ["// remove elements below root"]
+      		js_stack = ["// remove elements not present in the following state"]
+      		js_stack << Nice::Js::Caller.generate_js_remove(current_state)
+      		      	  
+          js_stack << ["// remove elements below root"]
       		js_stack << Nice::Js::Caller.clean_root_tree
       		
       		js_stack << "// add new content tree blow root tag"
       		js_stack += Nice::HtmlParser.add_root_content(cleaned_doc).compact
+      		
+      		js_stack << "// add elements of the current state above root"
+      		js_stack += Nice::HtmlParser.add_elements_of_current_state(cleaned_doc,current_state,true).compact      		
       	end
       	
       	# add completing js 

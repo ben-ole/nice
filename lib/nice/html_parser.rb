@@ -16,9 +16,10 @@ module Nice
       doc
     end
 
-  	def self.add_elements_of_current_state doc, curr_state
+  	def self.add_elements_of_current_state doc, curr_state, upper_root=false
 
-  		# get all nodes of the current state
+  		# get all nodes of the current state      
+      doc.css("*[data-state-root]").remove  if upper_root # for upper_root option remove tree below root to shorten the search
   		curr_state_nodes = doc.css("[data-state~='#{curr_state}']")
 
   		# get reference nodes in DOM tree for current nodes and generate js insert statements
