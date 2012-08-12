@@ -14,6 +14,10 @@ module Nice
 			def self.generate_js_remove curr_state
 				"NiceEventDispatcher.dispatch_event(\'nice.dom.RemoveStateEvent\',{curr_state:\'#{curr_state}\'});"				
 			end
+			
+			def self.clean_root_tree
+			  "NiceEventDispatcher.dispatch_event(\'nice.dom.CleanRootEvent\',{});"				
+			end
 
 
 			# History Manipulation

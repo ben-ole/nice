@@ -24,42 +24,68 @@ module Nice
 		
 		# => 	respond with JS which either first removes all elements of the current state and
 		#		later inserts new content OR directly replaces elements
+		
+	## case 4: the controller changed
+	  # => replace all contents under the "container yield" mentioned in the application layout file
 	
   class Logic
     
     def self.run current_method, current_path, referer, doc, is_js
 
-    	current_state = current_method.downcase + current_path.gsub("/", "_")
-    	prev_state = referer.gsub("/","_") unless referer.nil?
+        ref_c = Rails.application.routes.recognize_path(referer)[:controller]
+    	  curr_c = Rails.application.routes.recognize_path(current_path)[:controller]
+    	  curr_a = Rails.application.routes.recognize_path(current_path)[:action]
+    	
+    	  current_state = "#{current_method.downcase}_#{curr_c}_#{curr_a}"
+    	
+    	  prev_state = referer.gsub("/","_") unless referer.nil?
 
       	referenced_doc = Nice::HtmlParser.annotate_referencing_nodes doc	
 
       	cleaned_doc = Nice::HtmlParser.remove_elements_not_of_state current_state, referenced_doc
       	
+      	controller_same = (ref_c == curr_c)
+      	
       	# case 1
       	if !is_js then   
 
-          Nice::HtmlParser.add_top_css(cleaned_doc, current_state).to_html
+          response = Nice::HtmlParser.add_top_css(cleaned_doc, current_state).to_html
 
       	# case 2
-      	else   
+      	elsif controller_same && is_js then   
       		js_stack = ["// remove elements not present in the following state"]
       		js_stack << Nice::Js::Caller.generate_js_remove(current_state)
 
       		js_stack << "// add new elements"
       		js_stack += Nice::HtmlParser.add_elements_of_current_state(cleaned_doc,current_state).compact
-
-      		js_stack << "// add browser history scripts"		
+      		
+      	# case 4
+      	elsif !controller_same && is_js then
+          js_stack = ["// remove elements below root"]
+      		js_stack << Nice::Js::Caller.clean_root_tree
+      		
+      		js_stack << "// add new content tree blow root tag"
+      		js_stack += Nice::HtmlParser.add_root_content(cleaned_doc).compact
+      	end
+      	
+      	# add completing js 
+      	if is_js then
+      	  js_stack << "// add browser history scripts"		
       		js_stack << Nice::Js::Caller.move_to_url(current_path,"title")
       		js_stack << Nice::Js::Caller.insert_or_update_back_listener(referer)
 
       		js_stack << "// inform ui on state change"
       		js_stack << Nice::Js::Caller.state_did_change(prev_state,current_state)
 
-      		js_stack << Nice::Js::Caller.change_top_css(current_state)      		
-
-      		js_stack.join("\n")
+          js_stack << "// switch body css class"      		
+      		js_stack << Nice::Js::Caller.change_top_css(current_state)
+      		
+      	  js_stack << "// AJAX RAILS ENGINE (nice.codebility.com)"		      		
+      		      		
+      		response = js_stack.join("\n")
       	end
+      	
+      	response
     end
     
   end

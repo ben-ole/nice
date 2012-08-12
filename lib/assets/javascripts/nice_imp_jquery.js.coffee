@@ -27,6 +27,9 @@ class NiceJquery
 		$("[data-state]").not("[data-state~='#{event.curr_state}']").remove()
 		$("[data-state~='#{event.curr_state}'][data-state-update!='no']").remove()
 
+	# remove everything under the "root tag"
+	@clean_root_tree: (event) ->
+		$("[data-state-root]").children().remove()
 
 	# Browser History Stuff
 	@move_to_url: (event) ->
@@ -107,6 +110,7 @@ document.addEventListener "nice.dom.InsertAfterEvent", NiceJquery.insert_after, 
 document.addEventListener "nice.dom.InsertInsideEvent", NiceJquery.insert_inside, false
 document.addEventListener "nice.dom.RemoveStateEvent", NiceJquery.remove_state_elements, false
 document.addEventListener "nice.dom.ChangeTopCssEvent", NiceJquery.change_top_css, false
+document.addEventListener "nice.dom.CleanRootEvent", NiceJquery.clean_root_tree, false
 document.addEventListener "nice.hist.ChangeURLEvent", NiceJquery.move_to_url, false
 document.addEventListener "nice.hist.PopHistoryEvent", NiceJquery.insert_or_update_back_listener, false
 

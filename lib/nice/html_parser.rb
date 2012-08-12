@@ -119,6 +119,19 @@ module Nice
 	    doc.css("body").add_class("state-#{current_state}")
 	    doc
 	  end
+	  
+	  def self.add_root_content doc
+      if doc.css("[data-state-root]").length == 0
+        raise "You must add add a data-state-root in your application.html to your main container"
+      else
+  			ref_node_name = "[data-state-root]"
+  			js = []
+  			doc.css("[data-state-root] > *").each do |curr_node|
+	        js << Nice::Js::Caller.generate_js_insert_inside(curr_node, ref_node_name).gsub(/(\r\n|\n|\r|\t|\s\s)/,'')
+        end
+        js
+	    end
+	  end
 	
   	private
 	
