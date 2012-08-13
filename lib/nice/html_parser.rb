@@ -127,8 +127,8 @@ module Nice
       else
   			ref_node_name = "[data-state-root]"
   			js = []
-  			doc.css("[data-state-root] > *").each do |curr_node|
-	        js << Nice::Js::Caller.generate_js_insert_inside(curr_node, ref_node_name).gsub(/(\r\n|\n|\r|\t|\s\s)/,'')
+  			doc.css("*[data-state-root]").each do |curr_node|
+	        js << Nice::Js::Caller.replace_node(curr_node, ref_node_name).gsub(/(\r\n|\n|\r|\t|\s\s)/,'')
         end
         js
 	    end

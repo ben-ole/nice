@@ -33,6 +33,7 @@ module Nice
     def self.run current_method, current_path, referer, doc, is_js
 
         ref_c = Rails.application.routes.recognize_path(referer)[:controller]
+        ref_a = Rails.application.routes.recognize_path(referer)[:action]
     	  curr_c = Rails.application.routes.recognize_path(current_path)[:controller]
     	  curr_a = Rails.application.routes.recognize_path(current_path)[:action]
     	

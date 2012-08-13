@@ -11,13 +11,17 @@ module Nice
 				"NiceEventDispatcher.dispatch_event(\'nice.dom.InsertInsideEvent\',{new_node:\'#{new_node}\', ref_node:\"#{reference_node_ref}\"});"			
 			end
 
+			def self.replace_node new_node, reference_node_ref
+				"NiceEventDispatcher.dispatch_event(\'nice.dom.ReplaceEvent\',{new_node:\'#{new_node}\', ref_node:\"#{reference_node_ref}\"});"			
+			end
+
 			def self.generate_js_remove curr_state
 				"NiceEventDispatcher.dispatch_event(\'nice.dom.RemoveStateEvent\',{curr_state:\'#{curr_state}\'});"				
 			end
 			
 			def self.clean_root_tree
 			  "NiceEventDispatcher.dispatch_event(\'nice.dom.CleanRootEvent\',{});"				
-			end
+			end			
 
 
 			# History Manipulation

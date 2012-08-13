@@ -20,6 +20,11 @@ class NiceJquery
 	@insert_inside: (event) ->
 		act = (ref,ins) -> ref.prepend(ins)		
 		NiceJquery.perform_transition(event.ref_node, event.new_node, act)
+		
+	# replace ref node with new node
+	@replace: (event) ->
+		act = (ref,ins) -> ref.replaceWith(ins)
+		NiceJquery.perform_transition(event.ref_node, event.new_node, act)		
 
 	# remove all elements which are not of current state and all elements
 	# which are of current state and secondly annotated to be always updated.
@@ -108,6 +113,7 @@ class NiceJquery
 ## add event listener
 document.addEventListener "nice.dom.InsertAfterEvent", NiceJquery.insert_after, false
 document.addEventListener "nice.dom.InsertInsideEvent", NiceJquery.insert_inside, false
+document.addEventListener "nice.dom.ReplaceEvent", NiceJquery.replace, false
 document.addEventListener "nice.dom.RemoveStateEvent", NiceJquery.remove_state_elements, false
 document.addEventListener "nice.dom.ChangeTopCssEvent", NiceJquery.change_top_css, false
 document.addEventListener "nice.dom.CleanRootEvent", NiceJquery.clean_root_tree, false
