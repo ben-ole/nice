@@ -26,20 +26,23 @@ module Nice
   		# get all nodes of the current state      
       doc.css("*[data-state-root]").remove  if upper_root # for upper_root option remove tree below root to shorten the search
   		curr_state_nodes = doc.css("[data-state~='#{curr_state}']")
+  		curr_state_nodes += doc.css("[data-state~='all']")
 
   		# get reference nodes in DOM tree for current nodes and generate js insert statements
   		stack = curr_state_nodes.reverse.each_with_index.map do |curr_node,index|
 
-        if curr_node.has_attribute?("data-state-update") && 
-          curr_node.attribute("data-state-update").value == "no" then
+        if !curr_node.has_attribute?("data-state-update") then
           next
         end
 
-  			ref_id = self.ref_node_uid(curr_state,curr_state_nodes.count - index)
+        state_name = curr_node.attribute('data-state').value == 'all' ? 'all' : curr_state
+  			ref_id = self.ref_node_uid( state_name,curr_state_nodes.count - index)
   			ref_node_name = "[data-state-uid~=\'#{ref_id}\']"  			
   			ref_node = doc.css(ref_node_name)
+  			
+  			p "!!!!!! node: #{curr_node} with ref: #{ref_node}"
 
-  			next if ref_node == nil
+  			next if !ref_node
   			
   			#get index
   			idx = ref_node.attribute("data-state-uid").value.split(" ").find_index(ref_id)

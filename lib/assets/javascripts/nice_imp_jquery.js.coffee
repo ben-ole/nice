@@ -29,8 +29,9 @@ class NiceJquery
 	# remove all elements which are not of current state and all elements
 	# which are of current state and secondly annotated to be always updated.
 	@remove_state_elements: (event) ->
-		$("[data-state]").not("[data-state~='#{event.curr_state}']").remove()
-		$("[data-state~='#{event.curr_state}'][data-state-update!='no']").remove()
+		$("[data-state]").not("[data-state~='#{event.curr_state}']").not("[data-state~='all']").remove()
+		$("[data-state~='#{event.curr_state}'][data-state-update]").not("[data-state~='all']").remove()
+		$("[data-state~='all'][data-state-update]").remove()		
 
 	# remove everything under the "root tag"
 	@clean_root_tree: (event) ->
