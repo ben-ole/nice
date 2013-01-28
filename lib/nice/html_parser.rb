@@ -26,23 +26,25 @@ module Nice
   		# get all nodes of the current state      
       doc.css("*[data-state-root]").remove  if upper_root # for upper_root option remove tree below root to shorten the search
   		curr_state_nodes = doc.css("[data-state~='#{curr_state}']")
-  		curr_state_nodes += doc.css("[data-state~='all']")
+  		all_nodes = doc.css("[data-state~='all']")
+  		
 
   		# get reference nodes in DOM tree for current nodes and generate js insert statements
   		stack = curr_state_nodes.reverse.each_with_index.map do |curr_node,index|
 
-        if !curr_node.has_attribute?("data-state-update") then
+        # in case this node is not only assigned to the current state - check if it should be updated
+        if curr_node.attribute("data-state").value != curr_state &&
+           !curr_node.has_attribute?("data-state-update") then
           next
         end
 
-        state_name = curr_node.attribute('data-state').value == 'all' ? 'all' : curr_state
-  			ref_id = self.ref_node_uid( state_name,curr_state_nodes.count - index)
+  			ref_id = self.ref_node_uid( curr_state,curr_state_nodes.count - index)
   			ref_node_name = "[data-state-uid~=\'#{ref_id}\']"  			
   			ref_node = doc.css(ref_node_name)
   			
-  			p "!!!!!! node: #{curr_node} with ref: #{ref_node}"
-
-  			next if !ref_node
+  			if ref_node.blank?
+  			  next
+  			end
   			
   			#get index
   			idx = ref_node.attribute("data-state-uid").value.split(" ").find_index(ref_id)
@@ -58,6 +60,36 @@ module Nice
   			# remove unuseful chars which will break the js parser
   			js_text = js_text.gsub(/(\r\n|\n|\r|\t|\s\s)/,'')
   		end
+  		
+  		# nodes with 'all' attribute
+  		stack += all_nodes.reverse.each_with_index.map do |curr_node,index|
+
+        if !curr_node.has_attribute?("data-state-update") then
+          next
+        end
+
+  			ref_id = self.ref_node_uid( 'all',all_nodes.count - index)
+  			ref_node_name = "[data-state-uid~=\'#{ref_id}\']"  			
+  			ref_node = doc.css(ref_node_name)
+  			
+  			if ref_node.blank?
+  			  next
+  			end
+  			
+  			#get index
+  			idx = ref_node.attribute("data-state-uid").value.split(" ").find_index(ref_id)
+
+  			ref_node_method = ref_node.attribute('data-state-insert-method').value.split(" ")[idx]
+
+  			if ref_node_method == "insert"
+  				js_text = Nice::Js::Caller.generate_js_insert_after curr_node, ref_node_name
+  			else
+  				js_text = Nice::Js::Caller.generate_js_insert_inside curr_node, ref_node_name
+  			end
+
+  			# remove unuseful chars which will break the js parser
+  			js_text = js_text.gsub(/(\r\n|\n|\r|\t|\s\s)/,'')
+  		end  		
 
   		stack
   	end
