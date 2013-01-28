@@ -8,7 +8,12 @@ module Nice
     def self.remove_elements_not_of_state(state, doc)
 
       doc.css("[data-state]").each do |node|
-        if !node.attribute('data-state').value.split(" ").include?(state) then
+        state_list = node.attribute('data-state').value.split(" ")
+
+        if  !state_list.include?('all') &&
+            !state_list.include?(state) then
+          
+          p "removed state: #{state_list}"            
           node.remove
         end
       end
