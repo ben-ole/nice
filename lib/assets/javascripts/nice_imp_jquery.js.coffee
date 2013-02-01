@@ -29,9 +29,19 @@ class NiceJquery
 	# remove all elements which are not of current state and all elements
 	# which are of current state and secondly annotated to be always updated.
 	@remove_state_elements: (event) ->
-		$("[data-state]").not("[data-state~='#{event.curr_state}']").not("[data-state~='all']").remove()
-		$("[data-state~='#{event.curr_state}'][data-state-update]").not("[data-state~='all']").remove()
-		$("[data-state~='all'][data-state-update]").remove()		
+		a = jQuery.makeArray( $("[data-state]").not("[data-state~='#{event.curr_state}']").not("[data-state~='all']") )
+		a = a.concat jQuery.makeArray( $("[data-state~='#{event.curr_state}'][data-state-update]").not("[data-state~='all']") )
+		a = a.concat jQuery.makeArray( $("[data-state~='all'][data-state-update]") )
+		
+		for elem in a
+			$(elem).addClass('state-removing')
+			if $(elem).css("-webkit-transition-property") == "none" || $(elem).css("-webkit-transition-property") == "" || $(elem).css("-webkit-transition-property") == "all"
+				$(elem).remove()
+			else
+				$(elem).bind 'transitionend webkitTransitionEnd oTransitionEnd otransitionend', (e) ->
+					$(this).remove()
+		
+		return
 
 	# remove everything under the "root tag"
 	@clean_root_tree: (event) ->
