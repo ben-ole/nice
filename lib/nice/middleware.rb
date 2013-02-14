@@ -18,7 +18,12 @@ module Nice
 		## case 3: curr_state == prev_state 
 		
 		# => 	respond with JS which either first removes all elements of the current state and
-		#		later inserts new content OR directly replaces elements
+		#		later inserts new content OR directly replaces elements    
+		
+		
+		## case 4: this is a normal ajax request responding with javascript from rails
+		
+		# => ignore any NICE handling and return body unfiltered
 		
     
     def initialize(app)
@@ -30,6 +35,11 @@ module Nice
       @referer = nil
 
       status, @headers, @body = @app.call(env)
+                                                     
+      p ""
+      p "!!!!!!!! RAILS RESPONSE BODY: #{@body}"
+      p "!!!!!!!! RAILS RESPONSE HEADERS: #{@headers}"
+      p ""
       
       @is_js = Rack::Request.new(env).xhr?
 
@@ -63,6 +73,10 @@ module Nice
     
     def html?
       @headers["Content-Type"] && @headers["Content-Type"].include?("text/html")
+    end
+    
+    def js?
+      @headers["Content-Type"] && @headers["Content-Type"].include?("text/javascript")
     end
 
     def doc

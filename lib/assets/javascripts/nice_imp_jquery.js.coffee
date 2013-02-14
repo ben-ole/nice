@@ -34,14 +34,17 @@ class NiceJquery
 		a = a.concat jQuery.makeArray( $("[data-state~='all'][data-state-update]") )
 		
 		for elem in a
-			$(elem).addClass('state-removing')
-			if $(elem).css("-webkit-transition-property") == "none" || $(elem).css("-webkit-transition-property") == "" || $(elem).css("-webkit-transition-property") == "all"
-				$(elem).remove()
-			else
+			transition = $(elem).data('state-transition-class')
+			console.log "######## REMOVE ELEMENT: #{elem}"
+			if( transition ) 
 				$(elem).bind 'transitionend webkitTransitionEnd oTransitionEnd otransitionend', (e) ->
-					$(this).remove()
-		
-		return
+					$(this).remove()					
+				$(elem).addClass(transition)
+			else    
+				$(elem).remove()
+				
+		return null
+
 
 	# remove everything under the "root tag"
 	@clean_root_tree: (event) ->
