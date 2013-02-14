@@ -37,35 +37,39 @@ module Nice
       status, @headers, @body = @app.call(env)
                                                      
       p ""
-      p "!!!!!!!! RAILS RESPONSE BODY: #{@body}"
       p "!!!!!!!! RAILS RESPONSE HEADERS: #{@headers}"
       p ""
       
-      @is_js = Rack::Request.new(env).xhr?
+      @call_is_js = Rack::Request.new(env).xhr?
+      @app_resp_is_js = js?
+            
+      if !@app_resp_is_js && (html? || @call_is_js)
+        
+        @referer = env["HTTP_REFERER"]
+      	@method = env["REQUEST_METHOD"]
+      	@path = env["PATH_INFO"]
 
-      if html? || @is_js
-      	 @referer = env["HTTP_REFERER"]
-      	 @method = env["REQUEST_METHOD"]
-      	 @path = env["PATH_INFO"]
-
-      	 # in case 2+3 the response will be plain javascript
-      	 if @is_js
-      	 	@headers = {"Content-Type" => "text/javascript"}
-      	 end
+      	# in case 2+3 the response will be plain javascript
+      	if @call_is_js
+      	  @headers = {"Content-Type" => "text/javascript"}
+      	end
 
         [status, @headers, self]
+      
       else
-        [status, @headers, @body]
+        [status, @headers, @body]      
       end
     end
     
-    def each(&block)
-      if html? || @is_js
-        block.call("<!-- previous state: #{@referer} -->\n")
-        block.call( Nice::Logic.run( @method, @path, @referer, doc, @is_js) )
-      else
-        block.call(@body)
+    def each(&block)         
+
+      if !@app_resp_is_js && (html? || @call_is_js)
+        block.call("<!-- NICE Interception -->\n")
+        block.call( Nice::Logic.run( @method, @path, @referer, doc, @call_is_js) )
+      else        
+        block.call(@body)      
       end
+      
     end
     
     # Helper
