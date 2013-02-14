@@ -80,7 +80,7 @@ module Nice
     end
     
     def js?
-      @headers["Content-Type"] && @headers["Content-Type"].include?("text/javascript")
+      @headers["Content-Type"] && ( @headers["Content-Type"].include?("text/javascript") || @headers["Content-Type"].include?("application/json") )
     end
 
     def doc
